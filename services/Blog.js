@@ -1,6 +1,9 @@
 const https = require('https');
 const aws = require('aws-sdk');
+const DynamoDBMarshaller = require('@aws/dynamodb-auto-marshaller');
 aws.config.region = 'us-east-1';
+
+const autoMarshaller = new DynamoDBMarshaller.Marshaller();
 
 getAllBlogPosts = async () => {
     return new Promise((fulfill, reject) => {
@@ -21,7 +24,9 @@ getAllBlogPosts = async () => {
             if (error) {
                 reject(error);
             }
-            fulfill(data);
+            fulfill(data.Items.map((post) => {
+                return autoMarshaller.unmarshallItem(post);
+            }));
         });
     });
 };
@@ -55,7 +60,7 @@ getBlogPostForID = async (blogID) => {
             if (error) {
                 reject(error);
             }
-            fulfill(data);
+            fulfill(autoMarshaller.unmarshallItem(data.Items[0]));
         });
     });
 };

@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/scottenriquez/scottie-gg-xxx-blog-serverless#readme",
   "dependencies": {
+    "@aws/dynamodb-auto-marshaller": "^0.7.1",
     "aws-sdk": "^2.384.0",
     "https": "^1.0.0"
   },

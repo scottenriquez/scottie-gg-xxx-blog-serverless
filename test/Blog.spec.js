@@ -10,7 +10,7 @@ describe('Blog service', async () => {
        expect(allBlogPosts).to.not.be.null;
    });
 
-    it('should fetch a single blog post for a given ID', async () => {
+    it('should fetch a single blog post for a given ID asynchronously', async () => {
         //arrange
         const blogID = '15';
 
