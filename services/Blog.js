@@ -25,7 +25,10 @@ getAllBlogPosts = async () => {
                 reject(error);
             }
             fulfill(data.Items.map((post) => {
-                return autoMarshaller.unmarshallItem(post);
+                let unmarshalledPost = autoMarshaller.unmarshallItem(post);
+                //convert set to array for serialization
+                unmarshalledPost.BlogTags = Array.from(unmarshalledPost.BlogTags);
+                return unmarshalledPost;
             }));
         });
     });
@@ -60,7 +63,10 @@ getBlogPostForID = async (blogID) => {
             if (error) {
                 reject(error);
             }
-            fulfill(autoMarshaller.unmarshallItem(data.Items[0]));
+            let unmarshalledPost = autoMarshaller.unmarshallItem(data.Items[0]);
+            //convert set to array for serialization
+            unmarshalledPost.BlogTags = Array.from(unmarshalledPost.BlogTags);
+            fulfill(unmarshalledPost);
         });
     });
 };
