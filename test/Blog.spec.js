@@ -12,7 +12,7 @@ describe('Blog service', async () => {
 
     it('should fetch a single blog post for a given ID asynchronously', async () => {
         //arrange
-        const blogID = '15';
+        const blogID = '25';
 
         //act
         const blogPost = await blogService.getBlogPostForID(blogID);

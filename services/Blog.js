@@ -18,7 +18,7 @@ getAllBlogPosts = async () => {
             }
         });
         const parameters = {
-            TableName: 'blog'
+            TableName: 'blog-posts'
         };
         database.scan(parameters, (error, data) => {
             if (error) {
@@ -47,7 +47,7 @@ getBlogPostForID = async (blogID) => {
             }
         });
         const parameters = {
-            TableName: 'blog',
+            TableName: 'blog-posts',
             ScanFilter: {
                 'PostID': {
                     'AttributeValueList': [
