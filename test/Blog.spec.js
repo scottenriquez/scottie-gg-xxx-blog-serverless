@@ -12,10 +12,10 @@ describe('Blog service', async () => {
 
     it('should fetch a single blog post for a given ID asynchronously', async () => {
         //arrange
-        const blogID = '25';
+        const blogPostURL = 'opening-weekend';
 
         //act
-        const blogPost = await blogService.getBlogPostForID(blogID);
+        const blogPost = await blogService.getBlogPostForURL(blogPostURL);
 
         //assert
         expect(blogPost).to.not.be.null;

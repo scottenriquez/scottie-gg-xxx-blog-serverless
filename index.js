@@ -2,8 +2,8 @@ const blogService = require('./services/Blog');
 
 exports.handler = async (event) => {
     let result = {};
-    if (event['queryStringParameters'] && event['queryStringParameters']['postID']) {
-        result = await blogService.getBlogPostForID(event['queryStringParameters']['postID']);
+    if (event['queryStringParameters'] && event['queryStringParameters']['blogPostURL']) {
+        result = await blogService.getBlogPostForURL(event['queryStringParameters']['blogPostURL']);
     }
     else {
         result = await blogService.getAllBlogPosts();

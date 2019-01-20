@@ -18,23 +18,26 @@ getAllBlogPosts = async () => {
             }
         });
         const parameters = {
-            TableName: 'blog-posts'
+            TableName: 'scottie-gg-xxx-blog-posts'
         };
         database.scan(parameters, (error, data) => {
             if (error) {
                 reject(error);
             }
-            fulfill(data.Items.map((post) => {
+            let unmarshalledPosts = data.Items.map((post) => {
                 let unmarshalledPost = autoMarshaller.unmarshallItem(post);
                 //convert set to array for serialization
-                unmarshalledPost.BlogTags = Array.from(unmarshalledPost.BlogTags);
+                unmarshalledPost.blogPostTags = Array.from(unmarshalledPost.blogPostTags);
                 return unmarshalledPost;
+            });
+            fulfill(unmarshalledPosts.sort((current, other) => {
+                return other.postID - current.postID;
             }));
         });
     });
 };
 
-getBlogPostForID = async (blogID) => {
+getBlogPostForURL = async (blogPostURL) => {
     return new Promise((fulfill, reject) => {
         const database = new aws.DynamoDB({
             httpOptions: {
@@ -47,12 +50,12 @@ getBlogPostForID = async (blogID) => {
             }
         });
         const parameters = {
-            TableName: 'blog-posts',
+            TableName: 'scottie-gg-xxx-blog-posts',
             ScanFilter: {
-                'PostID': {
+                'blogPostURL': {
                     'AttributeValueList': [
                         {
-                            'S': blogID
+                            'S': blogPostURL
                         }
                     ],
                     'ComparisonOperator': 'EQ'
@@ -65,10 +68,10 @@ getBlogPostForID = async (blogID) => {
             }
             let unmarshalledPost = autoMarshaller.unmarshallItem(data.Items[0]);
             //convert set to array for serialization
-            unmarshalledPost.BlogTags = Array.from(unmarshalledPost.BlogTags);
+            unmarshalledPost.blogPostTags = Array.from(unmarshalledPost.blogPostTags);
             fulfill(unmarshalledPost);
         });
     });
 };
 
-module.exports = {getAllBlogPosts, getBlogPostForID};
+module.exports = {getAllBlogPosts, getBlogPostForURL};
